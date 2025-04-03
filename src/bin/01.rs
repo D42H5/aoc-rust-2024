@@ -1,5 +1,7 @@
 advent_of_code::solution!(1);
 
+use std::collections::HashMap;
+
 fn parse_input(input: &str) -> Option<(Vec<i64>, Vec<i64>)> {
     // Use as i64 to allow to calculate absolute value
     // and convert to u64 for summing later.
@@ -43,7 +45,25 @@ pub fn part_one(input: &str) -> Option<u64> {
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
-    None
+    let (l, r) = parse_input(input)?;
+
+    // HashMap to store frequency
+    let mut freq_map: HashMap<i64, u64> = HashMap::new();
+
+    // Count frequency of numbers from r
+    for num in r.iter() {
+        let freq = freq_map.entry(*num).or_insert(0);
+        *freq += 1;
+    }
+
+    let mut result: u64 = 0;
+    // Get sum of all numbers in l * freq
+    for num in l.iter() {
+        let freq = freq_map.get(num).unwrap_or(&0);
+        result += (*num as u64) * freq;
+    }
+
+    Some(result)
 }
 
 #[cfg(test)]
