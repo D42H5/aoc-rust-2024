@@ -29,7 +29,17 @@ fn parse_input(input: &str) -> Option<(Vec<i64>, Vec<i64>)> {
 }
 
 pub fn part_one(input: &str) -> Option<u64> {
-    None
+    let (mut l, mut r) = parse_input(input)?;
+
+    l.sort();
+    r.sort();
+
+    let sum_of_difference: u64 = l.iter()
+        .zip(r.iter())
+        .map(|(a, b)| (*a - *b).abs() as u64)
+        .sum();
+
+    Some(sum_of_difference)
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
